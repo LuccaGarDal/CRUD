@@ -10,6 +10,6 @@ public class UserTest {
                 .age(21)
                 .build();
 
-        UserService.save(user);
+        UserService.findByName(user.getName());
     }
 }

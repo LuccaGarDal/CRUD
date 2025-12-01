@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Log4j2
 public class UserRepository {
@@ -28,6 +30,34 @@ public class UserRepository {
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1, user.getName());
         ps.setInt(2, user.getAge());
+        return ps;
+    }
+
+    public static List<User> findByName (String name) {
+        try (Connection connection = ConnectionFactory.getConnection();
+        PreparedStatement ps = findByNamePreparedStatement(name, connection);
+        ResultSet rs = ps.executeQuery();) {
+            List<User> users = new ArrayList<>();
+
+            while (rs.next()) {
+                User user = User.builder()
+                        .name(rs.getString("name"))
+                        .age(rs.getInt("age"))
+                        .id(rs.getInt("id"))
+                        .build();
+                users.add(user);
+            }
+            return users;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static PreparedStatement findByNamePreparedStatement (String name, Connection conn) throws SQLException {
+        String sql = "SELECT * FROM user_db.user WHERE name LIKE ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, "%%%s%%".formatted(name));
         return ps;
     }
 }
