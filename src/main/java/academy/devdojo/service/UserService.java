@@ -15,10 +15,9 @@ public class UserService {
 
     }
 
-    public static List<User> findByName (String name) {
+    public static void findByName (String name) {
         log.info("Finding user by name {}", name);
-        List<User> byName = UserRepository.findByName(name);
-        log.info(byName);
-        return byName;
+        List<User> usersByName = UserRepository.findByName(name);
+        usersByName.forEach(u -> System.out.printf("%d - %s, %d years%n", u.getId(), u.getName(), u.getAge()));
     }
 }

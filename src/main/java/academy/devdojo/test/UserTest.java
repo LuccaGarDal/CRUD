@@ -6,7 +6,7 @@ import academy.devdojo.service.UserService;
 public class UserTest {
     static void main() {
         User user  = User.builder()
-                .name("Lucca")
+                .name("")
                 .age(21)
                 .build();
 
