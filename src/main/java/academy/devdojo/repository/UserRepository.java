@@ -102,5 +102,24 @@ public class UserRepository {
         return ps;
     }
 
+    public static void update (User user) {
+        try (Connection conn = ConnectionFactory.getConnection();
+        PreparedStatement ps = updatePreparedStatement(conn, user)) {
+            ps.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static PreparedStatement updatePreparedStatement (Connection conn, User user) throws SQLException {
+        String sql = "UPDATE user_db.user SET name = ?, age = ? WHERE (id = ?);";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, user.getName());
+        ps.setInt(2, user.getAge());
+        ps.setInt(3, user.getId());
+        return ps;
+
+    }
+
 
 }

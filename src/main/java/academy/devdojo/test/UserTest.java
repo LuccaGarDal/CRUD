@@ -7,11 +7,12 @@ import academy.devdojo.service.UserService;
 public class UserTest {
     static void main() {
         User user  = User.builder()
-                .name("")
+                .name("Luccao")
                 .age(21)
+                .id(2)
                 .build();
 
-        UserService.findByName(user.getName());
-        UserService.delete(1);
+        UserService.update(user);
+
     }
 }

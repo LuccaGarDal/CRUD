@@ -10,9 +10,9 @@ import java.util.List;
 public class UserService {
 
     public static void save (User user) {
-       log.info("Inserting user {} on database", user.getName());
+        log.info("Inserting user {} on database", user.getName());
         UserRepository.save(user);
-
+        log.info("Inserted {} as new user", user.getName());
     }
 
     public static void findByName (String name) {
@@ -25,5 +25,11 @@ public class UserService {
         log.info("Deleting user by id {}", id);
         UserRepository.delete(id);
         log.info("User {} deleted", id);
+    }
+
+    public static void update (User user) {
+        log.info("Updating user {}", user.getId());
+        UserRepository.update(user);
+        log.info("User {} update", user.getId());
     }
 }
