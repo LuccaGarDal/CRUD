@@ -60,4 +60,30 @@ public class UserRepository {
         ps.setString(1, "%%%s%%".formatted(name));
         return ps;
     }
+
+    public static User findById (int id) {
+        try (Connection conn = ConnectionFactory.getConnection();
+        PreparedStatement ps = findByIdPreparedStatement(id, conn);
+        ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                return User.builder()
+                        .name(rs.getString("name"))
+                        .age(rs.getInt("age"))
+                        .id(rs.getInt("id"))
+                        .build();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    private static PreparedStatement findByIdPreparedStatement (int id, Connection conn) throws SQLException {
+        String sql = "SELECT * FROM user_db.user WHERE id = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, id);
+        return ps;
+    }
+
 }
