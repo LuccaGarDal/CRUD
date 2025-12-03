@@ -20,4 +20,10 @@ public class UserService {
         List<User> usersByName = UserRepository.findByName(name);
         usersByName.forEach(u -> System.out.printf("%d - %s, %d years%n", u.getId(), u.getName(), u.getAge()));
     }
+
+    public static void delete (int id) {
+        log.info("Deleting user by id {}", id);
+        UserRepository.delete(id);
+        log.info("User {} deleted", id);
+    }
 }

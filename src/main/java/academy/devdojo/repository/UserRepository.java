@@ -86,4 +86,21 @@ public class UserRepository {
         return ps;
     }
 
+    public static void delete (int id) {
+        try (Connection conn = ConnectionFactory.getConnection();
+        PreparedStatement ps = deletePreparedStatement(id, conn)) {
+            ps.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static PreparedStatement deletePreparedStatement(int id, Connection conn) throws SQLException {
+        String sql = "DELETE FROM user_db.user WHERE id = ?;";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, id);
+        return ps;
+    }
+
+
 }

@@ -12,5 +12,6 @@ public class UserTest {
                 .build();
 
         UserService.findByName(user.getName());
+        UserService.delete(1);
     }
 }
